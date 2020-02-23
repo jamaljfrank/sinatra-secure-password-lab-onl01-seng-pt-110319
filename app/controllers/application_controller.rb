@@ -27,7 +27,7 @@ class ApplicationController < Sinatra::Base
   
 
   get '/account' do
-    @user = User.find(session[:user_id])
+    @user = User.find(session[:id])
     erb :account
   end
 
@@ -40,7 +40,7 @@ class ApplicationController < Sinatra::Base
     user = User.find_by(:username => params[:username])
  
   if user && user.authenticate(params[:password])
-    session[:user_id] = user.id
+    session[:id] = user.id
     redirect "/success"
   else
     redirect "/failure"
@@ -58,11 +58,11 @@ end
 
   helpers do
     def logged_in?
-      !!session[:user_id]
+      !!session[:id]
     end
 
     def current_user
-      User.find(session[:user_id])
+      User.find(session[:id])
     end
   end
 
